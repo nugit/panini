@@ -41,6 +41,8 @@ module.exports = function(options) {
     module.exports.refresh = panini.refresh.bind(panini);
   }
 
+  panini.data[options.dataName] = options.jsonData; // forked line
+
   // Compile pages with the above helpers
   return panini.render();
 }
