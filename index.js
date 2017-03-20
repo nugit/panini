@@ -33,7 +33,7 @@ Panini.prototype.render = require('./lib/render');
  * @param {object} options - Configuration options to pass to the new Panini instance.
  * @returns {function} Transform stream function that renders HTML pages.
  */
-module.exports = function(options) {
+module.exports = function(options, stateless=false) {
   if (!panini) {
     panini = new Panini(options);
     panini.loadBuiltinHelpers();
@@ -41,10 +41,15 @@ module.exports = function(options) {
     module.exports.refresh = panini.refresh.bind(panini);
   }
 
-  panini.data[options.dataName] = options.jsonData; // forked line
+  let data = {};
+  data[options.dataName] = options.jsonData; // forked line
+
+  if(!stateless) {
+    panini.data = data;
+  }
 
   // Compile pages with the above helpers
-  return panini.render();
+  return stateless ? panini.render(panini, data) : panini.render();
 }
 
 module.exports.Panini = Panini;
