@@ -7,7 +7,7 @@ var panini;
  */
 function Panini(options) {
   this.options = options;
-  this.Handlebars = require('handlebars');
+  this.Handlebars = require('promised-handlebars')(require('handlebars'), { Promise });
   this.layouts = {};
   this.data = {};
 
